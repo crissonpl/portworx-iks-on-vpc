@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo "Detaching volume $VOLUME_ID from worker $WORKER_ID"
+
+# Grab volume attachment id 
+ID=$(
+    curl -s -X GET -H "Authorization: $TOKEN" \
+        -H "Content-Type: application/json" \
+        -H "X-Auth-Resource-Group-ID: $RESOURCE_GROUP_ID" \
+        "https://$REGION.containers.cloud.ibm.com/v2/storage/getAttachments?cluster=$CLUSTER_ID&worker=$WORKER_ID" | jq -r --arg VOLUMEID "$VOLUME_ID" '.volume_attachments[] | select(.volume.id==$VOLUMEID) | .id'
+)
+
+if [ "$ID" == "" ] || [ "$ID" == "null" ]; then 
+    echo "No attachment found, skipping"
+else 
+    echo "Deleting volume attachment $ID"
+    curl -X DELETE -H "Authorization: $TOKEN" \
+        "https://$REGION.containers.cloud.ibm.com/v2/storage/vpc/deleteAttachment?cluster=$CLUSTER_ID&worker=$WORKER_ID&volumeAttachmentID=$ID"
+fi
