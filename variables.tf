@@ -5,6 +5,7 @@
 variable unique_id {
   description = "unique identifiers for all created resources"
   type        = string
+  default     = "thanos-iks-mzr"
 }
 
 variable ibmcloud_api_key {

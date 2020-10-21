@@ -1,0 +1,80 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] data.ibm_container_cluster_config.cluster" [label = "data.ibm_container_cluster_config.cluster", shape = "box"]
+		"[root] data.ibm_container_vpc_cluster.cluster" [label = "data.ibm_container_vpc_cluster.cluster", shape = "box"]
+		"[root] data.ibm_container_vpc_cluster_worker.worker" [label = "data.ibm_container_vpc_cluster_worker.worker", shape = "box"]
+		"[root] data.ibm_iam_auth_token.token" [label = "data.ibm_iam_auth_token.token", shape = "box"]
+		"[root] data.ibm_is_subnet.subnet" [label = "data.ibm_is_subnet.subnet", shape = "box"]
+		"[root] data.ibm_resource_group.group" [label = "data.ibm_resource_group.group", shape = "box"]
+		"[root] data.kubernetes_secret.image_pull_secret" [label = "data.kubernetes_secret.image_pull_secret", shape = "box"]
+		"[root] ibm_is_volume.volume" [label = "ibm_is_volume.volume", shape = "box"]
+		"[root] ibm_resource_instance.portworx" [label = "ibm_resource_instance.portworx", shape = "box"]
+		"[root] kubernetes_cluster_role_binding.default" [label = "kubernetes_cluster_role_binding.default", shape = "box"]
+		"[root] kubernetes_persistent_volume_claim.example" [label = "kubernetes_persistent_volume_claim.example", shape = "box"]
+		"[root] kubernetes_secret.copy_image_pull_secret" [label = "kubernetes_secret.copy_image_pull_secret", shape = "box"]
+		"[root] local.namespace" [label = "local.namespace", shape = "note"]
+		"[root] null_resource.deployment" [label = "null_resource.deployment", shape = "box"]
+		"[root] null_resource.update_image_pull_secrets" [label = "null_resource.update_image_pull_secrets", shape = "box"]
+		"[root] null_resource.volume_attachment" [label = "null_resource.volume_attachment", shape = "box"]
+		"[root] provider.ibm" [label = "provider.ibm", shape = "diamond"]
+		"[root] provider.kubernetes" [label = "provider.kubernetes", shape = "diamond"]
+		"[root] provider.null" [label = "provider.null", shape = "diamond"]
+		"[root] var.capacity" [label = "var.capacity", shape = "note"]
+		"[root] var.cluster" [label = "var.cluster", shape = "note"]
+		"[root] var.file_path" [label = "var.file_path", shape = "note"]
+		"[root] var.generation" [label = "var.generation", shape = "note"]
+		"[root] var.ibm_region" [label = "var.ibm_region", shape = "note"]
+		"[root] var.ibmcloud_api_key" [label = "var.ibmcloud_api_key", shape = "note"]
+		"[root] var.image_name" [label = "var.image_name", shape = "note"]
+		"[root] var.profile" [label = "var.profile", shape = "note"]
+		"[root] var.resource_group" [label = "var.resource_group", shape = "note"]
+		"[root] var.unique_id" [label = "var.unique_id", shape = "note"]
+		"[root] data.ibm_container_cluster_config.cluster" -> "[root] data.ibm_resource_group.group"
+		"[root] data.ibm_container_cluster_config.cluster" -> "[root] var.cluster"
+		"[root] data.ibm_container_vpc_cluster.cluster" -> "[root] data.ibm_resource_group.group"
+		"[root] data.ibm_container_vpc_cluster.cluster" -> "[root] var.cluster"
+		"[root] data.ibm_container_vpc_cluster_worker.worker" -> "[root] data.ibm_container_vpc_cluster.cluster"
+		"[root] data.ibm_iam_auth_token.token" -> "[root] provider.ibm"
+		"[root] data.ibm_is_subnet.subnet" -> "[root] data.ibm_container_vpc_cluster_worker.worker"
+		"[root] data.ibm_resource_group.group" -> "[root] provider.ibm"
+		"[root] data.ibm_resource_group.group" -> "[root] var.resource_group"
+		"[root] data.kubernetes_secret.image_pull_secret" -> "[root] provider.kubernetes"
+		"[root] ibm_is_volume.volume" -> "[root] data.ibm_is_subnet.subnet"
+		"[root] ibm_is_volume.volume" -> "[root] var.capacity"
+		"[root] ibm_is_volume.volume" -> "[root] var.profile"
+		"[root] ibm_resource_instance.portworx" -> "[root] kubernetes_cluster_role_binding.default"
+		"[root] ibm_resource_instance.portworx" -> "[root] null_resource.volume_attachment"
+		"[root] ibm_resource_instance.portworx" -> "[root] var.unique_id"
+		"[root] kubernetes_cluster_role_binding.default" -> "[root] null_resource.update_image_pull_secrets"
+		"[root] kubernetes_persistent_volume_claim.example" -> "[root] ibm_resource_instance.portworx"
+		"[root] kubernetes_secret.copy_image_pull_secret" -> "[root] data.kubernetes_secret.image_pull_secret"
+		"[root] kubernetes_secret.copy_image_pull_secret" -> "[root] local.namespace"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] null_resource.deployment"
+		"[root] null_resource.deployment" -> "[root] kubernetes_persistent_volume_claim.example"
+		"[root] null_resource.deployment" -> "[root] var.file_path"
+		"[root] null_resource.deployment" -> "[root] var.image_name"
+		"[root] null_resource.update_image_pull_secrets" -> "[root] kubernetes_secret.copy_image_pull_secret"
+		"[root] null_resource.update_image_pull_secrets" -> "[root] provider.null"
+		"[root] null_resource.update_image_pull_secrets" -> "[root] provisioner.local-exec"
+		"[root] null_resource.volume_attachment" -> "[root] data.ibm_iam_auth_token.token"
+		"[root] null_resource.volume_attachment" -> "[root] ibm_is_volume.volume"
+		"[root] null_resource.volume_attachment" -> "[root] provider.null"
+		"[root] null_resource.volume_attachment" -> "[root] provisioner.local-exec"
+		"[root] provider.ibm (close)" -> "[root] ibm_resource_instance.portworx"
+		"[root] provider.ibm" -> "[root] var.generation"
+		"[root] provider.ibm" -> "[root] var.ibm_region"
+		"[root] provider.ibm" -> "[root] var.ibmcloud_api_key"
+		"[root] provider.kubernetes (close)" -> "[root] kubernetes_persistent_volume_claim.example"
+		"[root] provider.kubernetes" -> "[root] data.ibm_container_cluster_config.cluster"
+		"[root] provider.null (close)" -> "[root] null_resource.deployment"
+		"[root] provisioner.local-exec (close)" -> "[root] null_resource.deployment"
+		"[root] root" -> "[root] meta.count-boundary (EachMode fixup)"
+		"[root] root" -> "[root] provider.ibm (close)"
+		"[root] root" -> "[root] provider.kubernetes (close)"
+		"[root] root" -> "[root] provider.null (close)"
+		"[root] root" -> "[root] provisioner.local-exec (close)"
+	}
+}
+

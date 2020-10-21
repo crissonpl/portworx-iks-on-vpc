@@ -1,0 +1,20 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: ca-lon04-thanos-iks-mzr-cluster.pem
+    server: https://c1.eu-gb.containers.cloud.ibm.com:21928
+  name: thanos-iks-mzr-cluster/bu86f6kl0nncepg3oh3g
+contexts:
+- context:
+    cluster: thanos-iks-mzr-cluster/bu86f6kl0nncepg3oh3g
+    namespace: default
+    user: admin/bu86f6kl0nncepg3oh3g
+  name: thanos-iks-mzr-cluster/bu86f6kl0nncepg3oh3g/admin
+current-context: thanos-iks-mzr-cluster/bu86f6kl0nncepg3oh3g/admin
+kind: Config
+preferences: {}
+users:
+- name: admin/bu86f6kl0nncepg3oh3g
+  user:
+    client-certificate: admin.pem
+    client-key: admin-key.pem
