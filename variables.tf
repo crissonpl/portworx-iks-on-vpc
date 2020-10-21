@@ -15,6 +15,7 @@ variable ibmcloud_api_key {
 variable generation {
   description = "Generation for VPC"
   type        = number
+  default     = 2
 }
 
 variable ibm_region {
@@ -30,7 +31,7 @@ variable cluster {
 variable resource_group {
   description = "resource group of existing kubernetes cluster"
   type        = string
-  default     = "asset-development"
+  default     = "sharedrg"
 }
 
 ##############################################################################
